@@ -1,4 +1,5 @@
 #include <AFMotor.h>
+#include <Servo.h>
 
 class LED {
     int ledPin;
@@ -47,9 +48,12 @@ LED ferrisWheelLights(5, 350, 10);
 
 AF_DCMotor railArmOne(1, MOTOR12_64KHZ);
 AF_DCMotor railArmTwo(2, MOTOR12_64KHZ);
-AF_DCMotor ferrisWheel(3);
 
-void setup() {}
+Servo ferrisWheel;
+
+void setup() {
+   ferrisWheel.attach(2);
+}
 
 void loop() {
   railArmOne.setSpeed(255);
@@ -61,13 +65,10 @@ void loop() {
   railArmOne.run(RELEASE);
   railArmTwo.run(RELEASE);
 
-  ferrisWheel.setSpeed(255);
-  ferrisWheel.run(FORWARD);
+  ferrisWheel.writeMicroseconds(1700);
   ferrisWheelLights.Update();
   railWarnings.Update();
   delay(5000);
-  ferrisWheel.setSpeed(0);
-  ferrisWheel.run(RELEASE);
   ferrisWheelLights.ledOff();
   railWarnings.ledOff();
 
